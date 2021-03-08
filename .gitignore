@@ -1,0 +1,11 @@
+.idea
+coverage.out
+*.DS_Store
+vendor
+node_modules
+package-lock.json
+!build/
+build/leaf_go
+locations
+logs
+default/

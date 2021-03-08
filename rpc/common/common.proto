@@ -1,0 +1,47 @@
+/*
+ * Copyright (c) 2013 - 2020. 青木文化传播有限公司 版权所有.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * File:    common.proto
+ * Created: 2020/2/10 16:11
+ * Authors: MS geek.snail@qq.com
+ */
+
+syntax = "proto3";
+
+package common;
+
+option go_package = "./common";
+
+enum Platform {
+  Platform_Nil = 0;
+  Platform_WX = 1; //微信小程序
+  Platform_WXGH = 2; //微信公众号
+  Platform_QQ = 3; //qq 小程序
+}
+
+enum Exception {
+  Exception_Nil = 0;
+  Exception_IDCACHE_INIT_FALSE = 1;
+  Exception_KEY_NOT_EXISTS = 2;
+  Exception_TWO_SEGMENTS_ARE_NULL = 3;
+}
+
+enum Status {
+  Status_Success = 0;
+  Status_Exception = 1;
+}
+
+message Empty {
+
+}
+
+message SegmentKeyReq {
+  string key = 1;
+}
+
+message Result {
+  int64 id = 1;
+  Status status = 2;
+  string msg = 3;
+}

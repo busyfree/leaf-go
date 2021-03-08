@@ -1,0 +1,28 @@
+/*
+ * Copyright (c) 2013 - 2020. 青木文化传播有限公司 版权所有.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * File:    service.proto
+ * Created: 2020/2/10 16:11
+ * Authors: MS geek.snail@qq.com
+ */
+
+syntax = "proto3";
+
+package v1.public;
+
+option go_package = "./v1/public";
+
+import "common/common.proto";
+
+// 公网域名 https://accord2020.treedom.cn
+// 微信小程序公有服务接口
+// wx.getSystemInfoSync() 返回, mpProject 服务端分配固定值默认: default
+// 请求头设置 // X-Custom-Dev=brand^model^system^platform^mpProject
+// 请求要带上小程序 X-MP-AppId
+// 若已登陆情况下,请求要带上身份头 X-MP-Token
+service Server {
+    rpc Segment (common.SegmentKeyReq) returns (common.Result);
+
+    rpc Snowflake (common.SegmentKeyReq) returns (common.Result);
+}
