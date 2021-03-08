@@ -1,4 +1,4 @@
-![build](https://github.com/busyfree/leaf-go/workflows/build/badge.svg?branch=master)
+[![build](https://github.com/busyfree/leaf-go/actions/workflows/main.yml/badge.svg?branch=main&event=push)](https://github.com/busyfree/leaf-go/actions/workflows/main.yml)
 
 ### leaf sever
 
