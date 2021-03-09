@@ -6,4 +6,8 @@ porting meituan [leaf](https://github.com/Meituan-Dianping/Leaf) from java to go
 
 project develop base [sniper](https://github.com/bilibili/sniper)
 
-other dependencies see [go.mod](./go.mod) 
+other dependencies see [go.mod](./go.mod)
+
+[![asciicast](https://asciinema.org/a/SjD5mjzEwLQFa7wcs90Fw2fSA.svg)](https://asciinema.org/a/SjD5mjzEwLQFa7wcs90Fw2fSA)
+
+[![asciicast](https://asciinema.org/a/vMHIRYSIAfpF4W2FK4ad8VxqD.svg)](https://asciinema.org/a/vMHIRYSIAfpF4W2FK4ad8VxqD)
