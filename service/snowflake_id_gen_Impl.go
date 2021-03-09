@@ -35,13 +35,18 @@ func NewSnowFlakeIdGenImpl(zkAddr string, port int, twepoch int64) *SnowFlakeIdG
 	if !(timeutil.MsTimestampNow() > twepoch) {
 		panic("Snowflake not support twepoch gt currentTime")
 	}
-	ip := s.getHostAddress(conf.GetString("LEAF_SNOWFLAKE_EN"))
-	holder := NewSnowFlakeZookeeperHolder(ip, fmt.Sprintf("%d", port), zkAddr)
-	logger.Infof("twepoch:{%d} ,ip:{%s} ,zkAddress:{%s} port:{%d}", twepoch, ip, zkAddr, port)
-	if !holder.Init() {
-		panic("Snowflake Id Gen is not init ok")
+	zkEnable := conf.GetBool("LEAF_SNOWFLAKE_ENABLE_ZK")
+	if zkEnable {
+		ip := s.getHostAddress(conf.GetString("LEAF_SNOWFLAKE_ETHER"))
+		holder := NewSnowFlakeZookeeperHolder(ip, fmt.Sprintf("%d", port), zkAddr)
+		logger.Infof("twepoch:{%d} ,ip:{%s} ,zkAddress:{%s} port:{%d}", twepoch, ip, zkAddr, port)
+		if !holder.Init() {
+			panic("Snowflake Id Gen is not init ok")
+		}
+		s.workerId = int64(holder.GetWorkerId())
+	} else {
+		s.workerId = conf.GetInt64("LEAF_SNOWFLAKE_WORKER_ID")
 	}
-	s.workerId = int64(holder.GetWorkerId())
 	logger.Infof("START SUCCESS USE ZK WORKERID-{%d}", s.workerId)
 	if !(s.workerId >= 0 && s.workerId <= int64(maxWorkerId)) {
 		panic("workerID must gte 0 and lte 1023")
