@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"github.com/busyfree/leaf-go/util/conf"
 	"math/rand"
 	"net"
 	"time"
@@ -34,7 +35,7 @@ func NewSnowFlakeIdGenImpl(zkAddr string, port int, twepoch int64) *SnowFlakeIdG
 	if !(timeutil.MsTimestampNow() > twepoch) {
 		panic("Snowflake not support twepoch gt currentTime")
 	}
-	ip := s.getHostAddress("en1")
+	ip := s.getHostAddress(conf.GetString("LEAF_SNOWFLAKE_EN"))
 	holder := NewSnowFlakeZookeeperHolder(ip, fmt.Sprintf("%d", port), zkAddr)
 	logger.Infof("twepoch:{%d} ,ip:{%s} ,zkAddress:{%s} port:{%d}", twepoch, ip, zkAddr, port)
 	if !holder.Init() {

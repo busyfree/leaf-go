@@ -21,32 +21,32 @@ type SegmentIDGenImpl struct {
 	leafAllocDao    *dao.LeafAllocDao
 }
 
-func NewSegmentIDGenImpl(ctx context.Context) *SegmentIDGenImpl {
+func NewSegmentIDGenImpl() *SegmentIDGenImpl {
 	s := new(SegmentIDGenImpl)
 	s.maxStep = 1000000
 	s.segmentDuration = 15 * 60 * 1000
 	s.initOk = false
 	s.leafAllocDao = dao.NewLeafAllocDao()
 	s.cache = new(sync.Map)
-	s.Init(ctx)
+	s.Init()
 	return s
 }
 
-func (s *SegmentIDGenImpl) Init(ctx context.Context) bool {
-	s.updateCacheFromDb(ctx)
+func (s *SegmentIDGenImpl) Init() bool {
+	s.updateCacheFromDb(nil)
 	s.initOk = true
-	s.updateCacheFromDbAtEveryMinute(ctx)
+	s.updateCacheFromDbAtEveryMinute()
 	return s.initOk
 }
 
-func (s *SegmentIDGenImpl) updateCacheFromDbAtEveryMinute(ctx context.Context) {
+func (s *SegmentIDGenImpl) updateCacheFromDbAtEveryMinute() {
 	ticker := time.NewTicker(time.Duration(60) * time.Second)
 	runtime.LockOSThread()
 	go func(t *time.Ticker) {
 		for {
 			select {
 			case <-t.C:
-				s.updateCacheFromDb(ctx)
+				s.updateCacheFromDb(context.Background())
 			}
 		}
 	}(ticker)
@@ -74,12 +74,12 @@ func (s *SegmentIDGenImpl) Get(ctx context.Context, key string) models.Result {
 		cacheSegmentBuffer.SetInitOk(true)
 		s.cache.Store(key, cacheSegmentBuffer)
 	}
-	return s.getIdFromSegmentBuffer(ctx, cacheSegmentBuffer)
+	return s.getIdFromSegmentBuffer(cacheSegmentBuffer)
 }
 
-func (s *SegmentIDGenImpl) loadNextSegmentFromDb(ctx context.Context, cacheSegmentBufferDao *dao.SegmentBufferDao) {
+func (s *SegmentIDGenImpl) loadNextSegmentFromDb(cacheSegmentBufferDao *dao.SegmentBufferDao) {
 	nextSegment := cacheSegmentBufferDao.GetSegments()[cacheSegmentBufferDao.NextPos()]
-	err := s.updateSegmentFromDb(ctx, cacheSegmentBufferDao.GetKey(), nextSegment)
+	err := s.updateSegmentFromDb(context.Background(), cacheSegmentBufferDao.GetKey(), nextSegment)
 	if err != nil {
 		cacheSegmentBufferDao.GetThreadRunning().Store(false)
 	}
@@ -90,12 +90,12 @@ func (s *SegmentIDGenImpl) loadNextSegmentFromDb(ctx context.Context, cacheSegme
 	return
 }
 
-func (s *SegmentIDGenImpl) getIdFromSegmentBuffer(ctx context.Context, cacheSegmentBufferDao *dao.SegmentBufferDao) models.Result {
+func (s *SegmentIDGenImpl) getIdFromSegmentBuffer(cacheSegmentBufferDao *dao.SegmentBufferDao) models.Result {
 	for {
 		cacheSegmentBufferDao.RWMutex.RLock()
 		segmentDao := cacheSegmentBufferDao.GetCurrent()
 		if !cacheSegmentBufferDao.IsNextReady() && (segmentDao.GetIdle() < int64(0.9*float64(segmentDao.GetStep()))) && cacheSegmentBufferDao.GetThreadRunning().CAS(false, true) {
-			go s.loadNextSegmentFromDb(ctx, cacheSegmentBufferDao)
+			go s.loadNextSegmentFromDb(cacheSegmentBufferDao)
 		}
 		cacheSegmentBufferDao.RWMutex.RUnlock()
 		value := segmentDao.GetValue().Load()
@@ -185,6 +185,9 @@ func (s *SegmentIDGenImpl) updateSegmentFromDb(ctx context.Context, key string, 
 }
 
 func (s *SegmentIDGenImpl) updateCacheFromDb(ctx context.Context) {
+	if ctx == nil {
+		ctx = context.Background()
+	}
 	var leafAllocDao = dao.NewLeafAllocDao()
 	dbTags, err := leafAllocDao.GetAllTags(ctx)
 	if err != nil {
