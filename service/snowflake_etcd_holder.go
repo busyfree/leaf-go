@@ -1,19 +1,3 @@
-/*
- *    Copyright 2020 M.S
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- */
-
 package service
 
 import (
@@ -71,7 +55,6 @@ func (s *SnowFlakeEtcdHolder) Init() bool {
 	var retryCount = 0
 RETRY:
 	resp, err := c.Get(context.Background(), PATH_FOREVER)
-	logger.Infof("etcdGETErr:%+v", err)
 	if err != nil {
 		panic(err)
 	}
@@ -87,7 +70,6 @@ RETRY:
 	if err1 != nil {
 		panic(err1)
 	}
-	logger.Infof("resp.Kvs:%d", len(resp.Kvs))
 	if len(resp.Kvs) == 0 {
 		if retryCount > 3 {
 			return false
