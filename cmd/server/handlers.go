@@ -29,14 +29,13 @@ var allowGetHooks = twirp.ChainHooks(
 )
 
 func initMux(mux *http.ServeMux, isInternal bool) {
-	zkAddr := conf.GetString("LEAF_SNOWFLAKE_ZK_ADDRESS")
-	zkPort := conf.GetInt("LEAF_SNOWFLAKE_PORT")
+	snowflakePort := conf.GetInt("LEAF_SNOWFLAKE_PORT")
 	leafSnowflakeTime := conf.GetTime("LEAF_SNOWFLAKE_START_TIME")
 	leafSnowflakeTwepoch := leafSnowflakeTime.Unix() * 1000
 	if leafSnowflakeTime.IsZero() {
 		leafSnowflakeTwepoch = 1288834974657
 	}
-	snowflakeService := service.NewSnowFlakeIdGenImpl(zkAddr, zkPort, leafSnowflakeTwepoch)
+	snowflakeService := service.NewSnowFlakeIdGenImpl(snowflakePort, leafSnowflakeTwepoch)
 	segmentService := service.NewSegmentIDGenImpl()
 	{
 		serverv1.Init(segmentService, snowflakeService)

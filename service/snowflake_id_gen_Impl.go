@@ -29,25 +29,42 @@ type SnowFlakeIdGenImpl struct {
 	lastTimestamp int64
 }
 
-func NewSnowFlakeIdGenImpl(zkAddr string, port int, twepoch int64) *SnowFlakeIdGenImpl {
+func NewSnowFlakeIdGenImpl(port int, twepoch int64) *SnowFlakeIdGenImpl {
 	s := new(SnowFlakeIdGenImpl)
 	s.twepoch = twepoch
 	if !(timeutil.MsTimestampNow() > twepoch) {
 		panic("Snowflake not support twepoch gt currentTime")
 	}
-	zkEnable := conf.GetBool("LEAF_SNOWFLAKE_ENABLE_ZK")
-	if zkEnable {
+	holderNum := conf.GetInt("LEAF_SNOWFLAKE_HOLDER_FLAG")
+	if holderNum == 1 {
 		ip := s.getHostAddress(conf.GetString("LEAF_SNOWFLAKE_ETHER"))
+		zkAddr := conf.GetString("LEAF_SNOWFLAKE_ZK_ADDRESS")
+		if len(zkAddr) == 0 {
+			panic("missing LEAF_SNOWFLAKE_ZK_ADDRESS")
+		}
 		holder := NewSnowFlakeZookeeperHolder(ip, fmt.Sprintf("%d", port), zkAddr)
-		logger.Infof("twepoch:{%d} ,ip:{%s} ,zkAddress:{%s} port:{%d}", twepoch, ip, zkAddr, port)
+		logger.Infof("twepoch:{%d} ,ip:{%s} ,zkAddr:{%s} port:{%d}", twepoch, ip, zkAddr, port)
 		if !holder.Init() {
 			panic("Snowflake Id Gen is not init ok")
 		}
 		s.workerId = int64(holder.GetWorkerId())
+		logger.Infof("START SUCCESS USE ZK WORKERID-{%d}", s.workerId)
+	} else if holderNum == 2 {
+		ip := s.getHostAddress(conf.GetString("LEAF_SNOWFLAKE_ETHER"))
+		etcdEndpoints := conf.GetStringSlice("LEAF_SNOWFLAKE_ETCD_SERVERS")
+		if len(etcdEndpoints) == 0 {
+			panic("missing LEAF_SNOWFLAKE_ETCD_SERVERS endpoints")
+		}
+		holder := NewSnowFlakeEtcdHolder(ip, fmt.Sprintf("%d", port), etcdEndpoints, 0)
+		logger.Infof("twepoch:{%d} ,ip:{%s} ,etcdAddress:{%+v} port:{%d}", twepoch, ip, etcdEndpoints, port)
+		if !holder.Init() {
+			panic("Snowflake Id Gen is not init ok")
+		}
+		s.workerId = int64(holder.GetWorkerId())
+		logger.Infof("START SUCCESS USE ETCD WORKERID-{%d}", s.workerId)
 	} else {
 		s.workerId = conf.GetInt64("LEAF_SNOWFLAKE_WORKER_ID")
 	}
-	logger.Infof("START SUCCESS USE ZK WORKERID-{%d}", s.workerId)
 	if !(s.workerId >= 0 && s.workerId <= int64(maxWorkerId)) {
 		panic("workerID must gte 0 and lte 1023")
 	}

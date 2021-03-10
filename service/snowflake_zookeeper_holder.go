@@ -19,8 +19,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-//holder-init-zk_addr:/snowflake/com.sankuai.leaf.opensource.test/forever/169.254.121.237:2181-0000000000
-
 var (
 	PREFIX_ZK_PATH = "/snowflake/" + conf.GetString("LEAF_NAME")
 	PROP_PATH      = filepath.Join(conf.GetConfigPath(), conf.GetString("LEAF_NAME")) + "/leafconf/{port}/workerID.toml"
@@ -37,11 +35,11 @@ type Endpoint struct {
 type SnowFlakeZookeeperHolder struct {
 	ZKAddressNode  string
 	listenAddress  string
-	WorkerId       int
 	ip             string
 	port           string
 	connectionStr  string
 	lastUpdateTime int64
+	WorkerId       int
 }
 
 func NewSnowFlakeZookeeperHolder(ip, port, connectionStr string) *SnowFlakeZookeeperHolder {
@@ -53,17 +51,8 @@ func NewSnowFlakeZookeeperHolder(ip, port, connectionStr string) *SnowFlakeZooke
 	return s
 }
 
-func (s *SnowFlakeZookeeperHolder) watch(ev <-chan zk.Event) {
-	for {
-		select {
-		case e := <-ev:
-			logger.Infof("SnowFlakeZookeeperHolderE:%+v", e)
-		}
-	}
-}
-
 func (s *SnowFlakeZookeeperHolder) Init() bool {
-	c, _, err := zk.Connect([]string{s.listenAddress}, time.Duration(6)*time.Second)
+	c, _, err := zk.Connect([]string{s.connectionStr}, time.Duration(6)*time.Second)
 	if err != nil {
 		panic(err)
 	}
