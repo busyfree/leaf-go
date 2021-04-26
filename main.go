@@ -26,7 +26,7 @@ func main() {
 	conf.BinBuildCommit = c
 	conf.BinBuildVersion = v
 	conf.BinBuildDate = d
-	root := cobra.Command{Use: "srv_treedom_web"}
+	root := cobra.Command{Use: "leaf_go"}
 	root.AddCommand(
 		server.Cmd,
 		job.Cmd,
