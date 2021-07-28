@@ -29,7 +29,7 @@ API_PREFIX="leaf"
 find rpc/ -name '*.proto' \
 -exec protoc --proto_path=$PROTO_SRC_PATH \
 --twirp_out=prefix=$API_PREFIX,M$IMPORT_MAPPING:$PROTO_SRC_PATH \
---go_out=M$IMPORT_MAPPING:$PROTO_SRC_PATH \
+--go_opt=paths=source_relative --go_out=M$IMPORT_MAPPING:$PROTO_SRC_PATH \
 --markdown_out=path_prefix=/$API_PREFIX:$PROTO_SRC_PATH  {} \;
 
 # 替换notify里的前缀

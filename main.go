@@ -1,5 +1,3 @@
-
-
 package main
 
 import (
@@ -11,7 +9,7 @@ import (
 	"github.com/busyfree/leaf-go/util/conf"
 
 	"github.com/spf13/cobra"
-	_ "go.uber.org/automaxprocs" // 根据容器配额设置 maxprocs
+	"go.uber.org/automaxprocs/maxprocs"
 )
 
 var (
@@ -22,6 +20,8 @@ var (
 )
 
 func main() {
+	nopLog := func(string, ...interface{}) {}
+	maxprocs.Set(maxprocs.Logger(nopLog))
 	conf.BinAppName = a
 	conf.BinBuildCommit = c
 	conf.BinBuildVersion = v
