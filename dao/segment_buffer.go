@@ -3,8 +3,9 @@ package dao
 import (
 	"sync"
 
-	"github.com/busyfree/leaf-go/models"
 	"go.uber.org/atomic"
+
+	"github.com/busyfree/leaf-go/models"
 )
 
 type SegmentBufferDao struct {

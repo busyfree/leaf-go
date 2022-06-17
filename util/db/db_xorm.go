@@ -4,10 +4,11 @@ import (
 	"context"
 	"time"
 
-	"github.com/busyfree/leaf-go/util/conf"
-	"github.com/busyfree/leaf-go/util/log"
 	_ "github.com/go-sql-driver/mysql"
 	"xorm.io/xorm"
+
+	"github.com/busyfree/leaf-go/util/conf"
+	"github.com/busyfree/leaf-go/util/log"
 )
 
 var dbXORMs = make(map[string]*xorm.Engine, 4)
@@ -23,7 +24,7 @@ func GetXORM(ctx context.Context, name string) *xorm.Engine {
 
 	dsn := conf.GetString("DB_" + name + "_DSN")
 	var logger = log.Get(ctx)
-	//logger.Info("dsn:", dsn)
+	// logger.Info("dsn:", dsn)
 	sqldb, err := xorm.NewEngine("mysql", dsn)
 	if err != nil {
 		log.Get(ctx).Panic(err)
@@ -44,7 +45,7 @@ func GetXORM(ctx context.Context, name string) *xorm.Engine {
 	sqldb.SetMaxOpenConns(maxCon)
 	sqldb.SetMaxIdleConns(maxIdle)
 	sqldb.SetConnMaxLifetime(time.Duration(maxLife) * time.Second)
-	//logger.Infof("sqldb:%v", sqldb)
+	// logger.Infof("sqldb:%v", sqldb)
 	errping := sqldb.Ping()
 	logger.Infof("dbPingErr:%v", errping)
 	lock.Lock()

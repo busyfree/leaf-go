@@ -22,7 +22,7 @@ import "common/common.proto";
 // 请求要带上小程序 X-MP-AppId
 // 若已登陆情况下,请求要带上身份头 X-MP-Token
 service Server {
-    rpc Segment (common.SegmentKeyReq) returns (common.Result);
+  rpc Segment (common.SegmentKeyReq) returns (common.Result);
 
-    rpc Snowflake (common.SegmentKeyReq) returns (common.Result);
+  rpc Snowflake (common.SegmentKeyReq) returns (common.Result);
 }

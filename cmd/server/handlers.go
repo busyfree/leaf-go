@@ -3,7 +3,8 @@ package server
 import (
 	"net/http"
 
-	"github.com/bilibili/twirp"
+	"github.com/withgame/twirp"
+
 	"github.com/busyfree/leaf-go/cmd/server/hook"
 	"github.com/busyfree/leaf-go/rpc/v1/public"
 	"github.com/busyfree/leaf-go/server/serverv1"

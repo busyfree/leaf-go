@@ -6,11 +6,12 @@ import (
 	"sync"
 	"time"
 
+	"go.uber.org/atomic"
+
 	"github.com/busyfree/leaf-go/dao"
 	"github.com/busyfree/leaf-go/models"
 	"github.com/busyfree/leaf-go/util/log"
 	"github.com/busyfree/leaf-go/util/timeutil"
-	"go.uber.org/atomic"
 )
 
 type SegmentIDGenImpl struct {

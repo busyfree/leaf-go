@@ -102,13 +102,13 @@ func WithQQAppId(ctx context.Context, appid string) context.Context {
 	return context.WithValue(ctx, QQAPPIdKey, appid)
 }
 
-//func WithWXAPI(ctx context.Context, api *wechat.WechatAPI) context.Context {
+// func WithWXAPI(ctx context.Context, api *wechat.WechatAPI) context.Context {
 //	return context.WithValue(ctx, WXAPIKEY, api)
-//}
+// }
 
-//func WithQQAPI(ctx context.Context, api *qq.QQAPI) context.Context {
+// func WithQQAPI(ctx context.Context, api *qq.QQAPI) context.Context {
 //	return context.WithValue(ctx, QQAPIKEY, api)
-//}
+// }
 
 func WithMobiApp(ctx context.Context, os string) context.Context {
 	return context.WithValue(ctx, MobiAppKey, os)
@@ -171,7 +171,6 @@ func GetQQAppId(ctx context.Context) string {
 	appid, _ := ctx.Value(QQAPPIdKey).(string)
 	return appid
 }
-
 
 // GetWxSession 获取用户 session key
 func GetWxSessionKey(ctx context.Context) string {

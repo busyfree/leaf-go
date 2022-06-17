@@ -10,19 +10,20 @@ import (
 	"strings"
 	"time"
 
+	"github.com/go-zookeeper/zk"
+	"github.com/spf13/cast"
+	"github.com/spf13/viper"
+
 	"github.com/busyfree/leaf-go/util/check"
 	"github.com/busyfree/leaf-go/util/conf"
 	"github.com/busyfree/leaf-go/util/log"
 	"github.com/busyfree/leaf-go/util/timeutil"
-	"github.com/go-zookeeper/zk"
-	"github.com/spf13/cast"
-	"github.com/spf13/viper"
 )
 
 var (
 	PREFIX_ZK_PATH = "/snowflake/" + conf.GetString("LEAF_NAME")
 	PROP_PATH      = filepath.Join(conf.GetConfigPath(), conf.GetString("LEAF_NAME")) + "/leafconf/{port}/workerID.toml"
-	PATH_FOREVER   = PREFIX_ZK_PATH + "/forever" //保存所有数据持久的节点
+	PATH_FOREVER   = PREFIX_ZK_PATH + "/forever" // 保存所有数据持久的节点
 	logger         = log.Get(context.Background())
 )
 

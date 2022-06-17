@@ -10,12 +10,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/busyfree/leaf-go/util/check"
-	"github.com/busyfree/leaf-go/util/conf"
-	"github.com/busyfree/leaf-go/util/timeutil"
 	"github.com/spf13/cast"
 	"github.com/spf13/viper"
 	"go.etcd.io/etcd/client/v3"
+
+	"github.com/busyfree/leaf-go/util/check"
+	"github.com/busyfree/leaf-go/util/conf"
+	"github.com/busyfree/leaf-go/util/timeutil"
 )
 
 type SnowFlakeEtcdHolder struct {

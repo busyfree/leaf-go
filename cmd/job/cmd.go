@@ -14,6 +14,11 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/opentracing/opentracing-go"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	crond "github.com/robfig/cron"
+	"github.com/spf13/cobra"
+
 	"github.com/busyfree/leaf-go/util"
 	"github.com/busyfree/leaf-go/util/conf"
 	"github.com/busyfree/leaf-go/util/ctxkit"
@@ -21,10 +26,6 @@ import (
 	"github.com/busyfree/leaf-go/util/metrics"
 	_ "github.com/busyfree/leaf-go/util/redis"
 	"github.com/busyfree/leaf-go/util/trace"
-	opentracing "github.com/opentracing/opentracing-go"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
-	crond "github.com/robfig/cron"
-	"github.com/spf13/cobra"
 )
 
 type jobInfo struct {

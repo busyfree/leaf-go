@@ -15,7 +15,7 @@ import (
 
 	"github.com/bilibili/memcache"
 	"github.com/bilibili/net/pool"
-	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/opentracing/opentracing-go"
 	"github.com/opentracing/opentracing-go/ext"
 )
 

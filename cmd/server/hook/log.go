@@ -9,8 +9,8 @@ import (
 	"github.com/busyfree/leaf-go/util/log"
 	"github.com/busyfree/leaf-go/util/metrics"
 
-	"github.com/bilibili/twirp"
 	"github.com/opentracing/opentracing-go"
+	"github.com/withgame/twirp"
 )
 
 type bizResponse interface {

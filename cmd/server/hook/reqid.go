@@ -7,7 +7,7 @@ import (
 	"github.com/busyfree/leaf-go/util/ctxkit"
 	"github.com/busyfree/leaf-go/util/trace"
 
-	"github.com/bilibili/twirp"
+	"github.com/withgame/twirp"
 )
 
 // NewRequestID 生成唯一请求标识并记录到 ctx

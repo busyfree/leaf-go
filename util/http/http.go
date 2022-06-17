@@ -24,7 +24,7 @@ import (
 	"github.com/busyfree/leaf-go/util/metrics"
 	"github.com/busyfree/leaf-go/util/trace"
 
-	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/opentracing/opentracing-go"
 	"github.com/opentracing/opentracing-go/ext"
 )
 

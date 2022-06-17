@@ -3,8 +3,9 @@ package hooks
 import (
 	"strings"
 
-	"github.com/busyfree/leaf-go/util/conf"
 	"github.com/sirupsen/logrus"
+
+	"github.com/busyfree/leaf-go/util/conf"
 )
 
 type FilterHook struct{}

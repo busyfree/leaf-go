@@ -5,12 +5,13 @@ import (
 	"net/http"
 	"path/filepath"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/busyfree/leaf-go/server/webgin/controllers/acp"
 	"github.com/busyfree/leaf-go/server/webgin/controllers/api"
 	"github.com/busyfree/leaf-go/server/webgin/middlewares"
 	"github.com/busyfree/leaf-go/service"
 	"github.com/busyfree/leaf-go/util/conf"
-	"github.com/gin-gonic/gin"
 )
 
 func formatBool(t bool) string {
@@ -45,7 +46,7 @@ func initRoute(segmentService *service.SegmentIDGenImpl, snowflakeService *servi
 	middlewares.FilterMiddleware()
 	GinRoute.Use(middlewares.Logger())
 
-	GinRoute.MaxMultipartMemory = 100 << 20 //100M
+	GinRoute.MaxMultipartMemory = 100 << 20 // 100M
 
 	base := new(acp.BaseController)
 	GinRoute.GET(BASEURL+"ping", base.Ping)

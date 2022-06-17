@@ -1,8 +1,9 @@
 package dao
 
 import (
-	"github.com/busyfree/leaf-go/models"
 	"go.uber.org/atomic"
+
+	"github.com/busyfree/leaf-go/models"
 )
 
 type SegmentDao struct {

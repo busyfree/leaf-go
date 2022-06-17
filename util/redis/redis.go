@@ -12,7 +12,7 @@ import (
 
 	"github.com/bilibili/net/pool"
 	"github.com/bilibili/redis"
-	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/opentracing/opentracing-go"
 	"github.com/opentracing/opentracing-go/ext"
 )
 

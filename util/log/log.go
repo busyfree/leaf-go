@@ -5,12 +5,13 @@ import (
 	"context"
 	"os"
 
-	"github.com/busyfree/leaf-go/util/conf"
-	"github.com/busyfree/leaf-go/util/ctxkit"
-	"github.com/busyfree/leaf-go/util/log/hooks"
 	"github.com/k0kubun/pp"
 	"github.com/mattn/go-isatty"
 	"github.com/sirupsen/logrus"
+
+	"github.com/busyfree/leaf-go/util/conf"
+	"github.com/busyfree/leaf-go/util/ctxkit"
+	"github.com/busyfree/leaf-go/util/log/hooks"
 )
 
 func init() {

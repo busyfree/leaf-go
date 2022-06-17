@@ -13,6 +13,11 @@ import (
 
 	sentinel "github.com/alibaba/sentinel-golang/api"
 	"github.com/alibaba/sentinel-golang/core/flow"
+	"github.com/opentracing/opentracing-go"
+	"github.com/opentracing/opentracing-go/ext"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/spf13/cast"
+
 	"github.com/busyfree/leaf-go/service"
 	"github.com/busyfree/leaf-go/util"
 	"github.com/busyfree/leaf-go/util/conf"
@@ -20,10 +25,6 @@ import (
 	"github.com/busyfree/leaf-go/util/log"
 	_ "github.com/busyfree/leaf-go/util/redis"
 	"github.com/busyfree/leaf-go/util/trace"
-	"github.com/opentracing/opentracing-go"
-	"github.com/opentracing/opentracing-go/ext"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/spf13/cast"
 )
 
 var (

@@ -3,7 +3,7 @@ package hook
 import (
 	"context"
 
-	"github.com/bilibili/twirp"
+	"github.com/withgame/twirp"
 )
 
 func NeAllowGet() *twirp.ServerHooks {

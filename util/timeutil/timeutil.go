@@ -31,7 +31,7 @@ func MsTimestampStr2Time(stampStr string) (time.Time, error) {
 	return MsTimestamp2Time(stamp), nil
 }
 
-//毫秒转time对象
+// 毫秒转time对象
 func MsTimestamp2Time(stamp int64) time.Time {
 	return time.Unix(stamp/1000, 0)
 }
@@ -39,7 +39,7 @@ func Timestamp2Time(stamp int64) time.Time {
 	return time.Unix(stamp, 0)
 }
 
-//毫秒
+// 毫秒
 func MsTimestampNow() int64 {
 	return time.Now().UnixNano() / 1000000
 }
@@ -98,7 +98,6 @@ func WeekRange(now time.Time) (weekStart, weekEnd time.Time) {
 	weekEnd = weekStart.AddDate(0, 0, 7)
 	return
 }
-
 
 func GetNextMonthRange(now time.Time, interval int) (firstOfMonth, firstOfNextMonth time.Time, lastDayWeek time.Weekday, lastDay int) {
 	currentYear, currentMonth, _ := now.Date()

@@ -23,9 +23,9 @@ IMPORT_MAPPING="common/common.proto=github.com/busyfree/leaf-go/rpc/common"
 API_PREFIX="leaf"
 
 find . -name '*.proto' -exec protoc --proto_path=$PROTO_SRC_PATH \
---twirp_out=prefix=$API_PREFIX,M$IMPORT_MAPPING:$PROTO_SRC_PATH \
---go_out=M$IMPORT_MAPPING:$PROTO_SRC_PATH \
---markdown_out=path_prefix=/$API_PREFIX:$PROTO_SRC_PATH {} \;
+  --twirp_out=prefix=$API_PREFIX,M$IMPORT_MAPPING:$PROTO_SRC_PATH \
+  --go_out=M$IMPORT_MAPPING:$PROTO_SRC_PATH \
+  --markdown_out=path_prefix=/$API_PREFIX:$PROTO_SRC_PATH {} \;
 
 # find ./ -name '*.proto' -exec protoc --plugin=protoc-gen-markdown=/Users/MS/Documents/goworkspace/src/protoc-gen-markdown/protoc-gen-markdown --markdown_out=path_prefix=/vocaldh:. {} \;
 # find ./ -name '*.proto' -exec protoc --markdown_out=path_prefix=/vocaldh:$PROTO_SRC_PATH {} \;

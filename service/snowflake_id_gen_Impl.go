@@ -7,10 +7,11 @@ import (
 	"net"
 	"time"
 
+	"github.com/spf13/cast"
+
 	"github.com/busyfree/leaf-go/models"
 	"github.com/busyfree/leaf-go/util/conf"
 	"github.com/busyfree/leaf-go/util/timeutil"
-	"github.com/spf13/cast"
 )
 
 var (

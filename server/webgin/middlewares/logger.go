@@ -5,10 +5,11 @@ import (
 	"math"
 	"time"
 
-	"github.com/busyfree/leaf-go/util/ctxkit"
-	"github.com/busyfree/leaf-go/util/log"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
+
+	"github.com/busyfree/leaf-go/util/ctxkit"
+	"github.com/busyfree/leaf-go/util/log"
 )
 
 func Logger() gin.HandlerFunc {
