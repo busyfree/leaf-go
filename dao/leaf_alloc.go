@@ -21,8 +21,8 @@ func NewLeafAllocDao() *LeafAllocDao {
 func (dao *LeafAllocDao) UpdateMaxId(ctx context.Context, tag string) (err error) {
 	dao.BeforeInsert()
 	c := db.Get(ctx, ctxkit.GetProjectDBName(ctx))
-	sqlInsert := fmt.Sprintf("UPDATE %s SET max_id = max_id + step, update_time=? WHERE biz_tag =?", dao.TableName())
-	q := db.SQLInsert(dao.TableName(), sqlInsert)
+	sqlUpdate := fmt.Sprintf("UPDATE %s SET max_id = max_id + step, update_time=? WHERE biz_tag =?", dao.TableName())
+	q := db.SQLUpdate(dao.TableName(), sqlUpdate)
 	_, err = c.ExecContext(
 		ctx,
 		q,
@@ -32,7 +32,7 @@ func (dao *LeafAllocDao) UpdateMaxId(ctx context.Context, tag string) (err error
 }
 
 func (dao *LeafAllocDao) UpdateMaxIdAndGetLeafAlloc(ctx context.Context, tag string) (err error) {
-	dao.BeforeInsert()
+	dao.BeforeUpdate()
 	err = dao.UpdateMaxId(ctx, tag)
 	if err != nil {
 		return
@@ -45,7 +45,7 @@ func (dao *LeafAllocDao) UpdateMaxIdAndGetLeafAlloc(ctx context.Context, tag str
 }
 
 func (dao *LeafAllocDao) UpdateMaxIdByCustomStepAndGetLeafAlloc(ctx context.Context, oldDao *LeafAllocDao) (err error) {
-	dao.BeforeInsert()
+	dao.BeforeUpdate()
 	err = dao.UpdateMaxIdByCustomStep(ctx, oldDao.Step, oldDao.BizTag)
 	if err != nil {
 		return
@@ -58,10 +58,10 @@ func (dao *LeafAllocDao) UpdateMaxIdByCustomStepAndGetLeafAlloc(ctx context.Cont
 }
 
 func (dao *LeafAllocDao) UpdateMaxIdByCustomStep(ctx context.Context, step int, tag string) (err error) {
-	dao.BeforeInsert()
+	dao.BeforeUpdate()
 	c := db.Get(ctx, ctxkit.GetProjectDBName(ctx))
-	sqlInsert := fmt.Sprintf("UPDATE %s SET max_id = max_id + ?, update_time=? WHERE biz_tag =?", dao.TableName())
-	q := db.SQLInsert(dao.TableName(), sqlInsert)
+	sqlUpdate := fmt.Sprintf("UPDATE %s SET max_id = max_id + ?, update_time=? WHERE biz_tag =?", dao.TableName())
+	q := db.SQLUpdate(dao.TableName(), sqlUpdate)
 	_, err = c.ExecContext(
 		ctx,
 		q,

@@ -20,7 +20,7 @@ func (s *Public) Segment(ctx context.Context, req *common.SegmentKeyReq) (*commo
 	if _, ok := qpsMaps["api_segment"]; ok {
 		// Entry 方法用于埋点
 		option := sentinel.WithTrafficType(base.Inbound)
-		e, b := sentinel.Entry("honda_accord_api_wxlogin", option)
+		e, b := sentinel.Entry("api_segment", option)
 		if b != nil {
 			resp.Msg = "服务超载"
 			return resp, nil
